@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 
 import Header from "../../components/header";
 import Menu from "../../components/menu";
@@ -49,6 +49,12 @@ const Home: React.ComponentType = () => {
           )}
         </Styled.MainView>
       </Styled.Scroll>
+
+      {activeTab === 1 && (
+        <Styled.RandomButton>
+          <Text>Random</Text>
+        </Styled.RandomButton>
+      )}
 
       <Menu menuItems={menuItems} />
     </View>
