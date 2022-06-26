@@ -3,14 +3,15 @@ import { Text, View } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 
 import { asyncStorageLoad } from "../../../app/functions";
+import { navigate } from "../../../navigation";
 import Input from "../../../components/input";
 
-import { navigate } from "../../../navigation";
 import * as Styled from "./Tabs.styled";
+import { PeopleProps } from "./types";
 
 const Contacts: React.FunctionComponent = () => {
   const [search, setSearch] = useState<string>();
-  const [storage, setStorage] = useState<Array<{ name: string }>>([]);
+  const [storage, setStorage] = useState<Array<PeopleProps>>([]);
 
   useFocusEffect(
     useCallback(() => {
@@ -31,19 +32,23 @@ const Contacts: React.FunctionComponent = () => {
 
   console.log(storage, "storage");
 
-  const handleSearch = (e: string) => {};
+  const handleSearch = (e: string) => {
+    storage.filter((p) =>
+      p.fullName === e ? setStorage([p]) : setStorage(storage)
+    );
+  };
 
   return (
     <View>
       <Input onChangeText={handleSearch} placeholder="Search" value={search} />
 
-      {storage.length > 1 ? (
+      {storage.length > 0 ? (
         storage.map((person, index) => (
           <Styled.Person
             key={index}
-            onPress={() => navigate("ViewProfile", { name: person.name })}
+            onPress={() => navigate("ViewProfile", { name: person.fullName })}
           >
-            <Text>{person.name}</Text>
+            <Text>{person.fullName}</Text>
           </Styled.Person>
         ))
       ) : (

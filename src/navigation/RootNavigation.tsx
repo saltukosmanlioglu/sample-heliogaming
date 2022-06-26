@@ -1,10 +1,10 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import { RootStackParamList } from "./types";
-
 import HomePage from "../pages/home";
 import ViewProfile from "../pages/view-profile";
+
+import { RootStackParamList } from "./types";
 
 const Stack = createStackNavigator<RootStackParamList>();
 const INITIAL_ROUTE_NAME = "HomePage";

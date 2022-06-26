@@ -1,4 +1,4 @@
-export interface CreatePropleProps {
+export interface PeopleProps {
   address: string;
   company: string;
   fullName: string;

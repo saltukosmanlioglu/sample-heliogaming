@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { View, Text } from "react-native";
 
-import Input from "../../../components/input";
 import { asyncStorageSave, confirmationAlert } from "../../../app/functions";
+import Input from "../../../components/input";
 
-import { CreatePropleProps } from "./types";
+import { PeopleProps } from "./types";
 import * as Styled from "./Tabs.styled";
 
 const Create: React.FunctionComponent = () => {
-  const [formData, setFormData] = useState<CreatePropleProps>({
+  const [formData, setFormData] = useState<PeopleProps>({
     address: "",
     company: "",
     fullName: "",
@@ -19,7 +19,7 @@ const Create: React.FunctionComponent = () => {
     setFormData({ ...formData, [key]: value });
   };
 
-  const handleCreateClick = () => {
+  const handleCreate = () => {
     confirmationAlert({
       title: "Add Contact",
       text: `Create a record named ${formData.fullName} ?`,
@@ -55,7 +55,7 @@ const Create: React.FunctionComponent = () => {
         placeholder="Company"
         value={formData.company}
       />
-      <Styled.CreateButton onPress={handleCreateClick}>
+      <Styled.CreateButton onPress={handleCreate}>
         <Text style={{ color: "#fff" }}>SAVE</Text>
       </Styled.CreateButton>
     </View>

@@ -1,7 +1,6 @@
 import React from "react";
 import { Text } from "react-native";
 
-import { navigate } from "../../navigation";
 import { MenuProps } from "./types";
 import * as Styled from "./Menu.styled";
 
