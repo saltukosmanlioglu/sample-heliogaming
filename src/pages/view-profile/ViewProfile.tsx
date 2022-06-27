@@ -16,12 +16,12 @@ const ViewProfile: React.ComponentType<ViewProfileProps> = ({
 }: any) => {
   const route = useRoute<any>();
 
-  const index = route.params.data.findIndex(
+  const index = route?.params?.data?.findIndex(
     (i: PeopleProps) => i.fullName === route.params.name
   );
 
   const [formData, setFormData] = useState<PeopleProps>({
-    ...route.params.data.filter(
+    ...route?.params?.data?.filter(
       (p: PeopleProps) => p.fullName === route.params.name
     ),
   });
@@ -61,7 +61,7 @@ const ViewProfile: React.ComponentType<ViewProfileProps> = ({
   };
 
   useEffect(() => {
-    route.params.data.find((p: PeopleProps) =>
+    route?.params?.data?.find((p: PeopleProps) =>
       p.fullName === route.params.name ? setFormData(p) : {}
     );
   }, [formData]);

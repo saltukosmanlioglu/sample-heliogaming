@@ -11,19 +11,13 @@ import { AddNumber, Contacts } from "./tabs";
 import * as Styled from "./Home.styled";
 import { PeopleProps } from "./tabs/types";
 import { TabEnum } from "./types";
+import { navigate } from "../../navigation";
 
 const Home: React.ComponentType = () => {
   const [activeTab, setActiveTab] = useState<TabEnum>(TabEnum.Contacts);
   const [storage, setStorage] = useState<Array<PeopleProps>>([]);
 
   const route = useRoute();
-
-  useEffect(() => {
-    asyncStorageLoad({
-      key: "contacts",
-      getLoad: (value) => setStorage(JSON.parse(value)),
-    });
-  }, [activeTab, route]);
 
   const menuItems = [
     {
@@ -35,6 +29,19 @@ const Home: React.ComponentType = () => {
       text: "Add Number",
     },
   ];
+
+  const handleRandom = () => {
+    navigate("ViewProfile", {
+      index: Math.floor(Math.random() * storage.length),
+    });
+  };
+
+  useEffect(() => {
+    asyncStorageLoad({
+      key: "contacts",
+      getLoad: (value) => setStorage(JSON.parse(value)),
+    });
+  }, [activeTab, route]);
 
   return (
     <View style={{ flex: 1 }}>
@@ -53,7 +60,7 @@ const Home: React.ComponentType = () => {
       </Styled.Scroll>
 
       {activeTab === TabEnum.Contacts && (
-        <Styled.RandomButton>
+        <Styled.RandomButton onPress={handleRandom}>
           <Text>Random</Text>
         </Styled.RandomButton>
       )}
