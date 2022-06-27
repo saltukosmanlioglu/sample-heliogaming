@@ -5,11 +5,11 @@ import { asyncStorageSave, confirmationAlert } from "../../../app/functions";
 import Input from "../../../components/input";
 
 import { AddNumberProps, PeopleProps } from "./types";
+import { TabEnum } from "../types";
 import * as Styled from "./Tabs.styled";
 
 const AddNumber: React.FunctionComponent<AddNumberProps> = ({
   setActiveTab,
-  setStorage,
   storage,
 }) => {
   const [formData, setFormData] = useState<PeopleProps>({
@@ -32,7 +32,7 @@ const AddNumber: React.FunctionComponent<AddNumberProps> = ({
           key: "contacts",
           value: [...storage, formData],
         });
-        setActiveTab(1);
+        setActiveTab(TabEnum.Contacts);
       },
     });
   };

@@ -1,37 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
+import { useRoute } from "@react-navigation/native";
 
 import { asyncStorageLoad } from "../../app/functions";
 import Header from "../../components/header";
 import Menu from "../../components/menu";
 
-import { AddNumber, Contacts, EditProfile } from "./tabs";
+import { AddNumber, Contacts } from "./tabs";
 
 import * as Styled from "./Home.styled";
 import { PeopleProps } from "./tabs/types";
+import { TabEnum } from "./types";
 
 const Home: React.ComponentType = () => {
-  const [activeTab, setActiveTab] = useState<number>(1);
+  const [activeTab, setActiveTab] = useState<TabEnum>(TabEnum.Contacts);
   const [storage, setStorage] = useState<Array<PeopleProps>>([]);
+
+  const route = useRoute();
 
   useEffect(() => {
     asyncStorageLoad({
       key: "contacts",
       getLoad: (value) => setStorage(JSON.parse(value)),
     });
-  }, [activeTab]);
+  }, [activeTab, route]);
 
   const menuItems = [
     {
       onPress: () => setActiveTab(0),
-      text: "Profile",
-    },
-    {
-      onPress: () => setActiveTab(1),
       text: "Contacts",
     },
     {
-      onPress: () => setActiveTab(2),
+      onPress: () => setActiveTab(1),
       text: "Add Number",
     },
   ];
@@ -39,20 +39,12 @@ const Home: React.ComponentType = () => {
   return (
     <View style={{ flex: 1 }}>
       <Header
-        title={
-          activeTab === 0
-            ? "My Profile"
-            : activeTab === 1
-            ? "Contacts"
-            : "Add Number"
-        }
+        title={activeTab === TabEnum.Contacts ? "Contacts" : "Add Number"}
       />
 
       <Styled.Scroll>
         <Styled.MainView>
-          {activeTab === 0 ? (
-            <EditProfile />
-          ) : activeTab === 1 ? (
+          {activeTab === TabEnum.Contacts ? (
             <Contacts storage={storage} />
           ) : (
             <AddNumber setActiveTab={setActiveTab} storage={storage} />
@@ -60,7 +52,7 @@ const Home: React.ComponentType = () => {
         </Styled.MainView>
       </Styled.Scroll>
 
-      {activeTab === 1 && (
+      {activeTab === TabEnum.Contacts && (
         <Styled.RandomButton>
           <Text>Random</Text>
         </Styled.RandomButton>

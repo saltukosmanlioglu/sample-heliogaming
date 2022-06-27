@@ -32,7 +32,12 @@ const Contacts: React.FunctionComponent<ContactsProps> = ({ storage }) => {
           .map((person, index) => (
             <Styled.Person
               key={index}
-              onPress={() => navigate("ViewProfile", { name: person.fullName })}
+              onPress={() =>
+                navigate("ViewProfile", {
+                  data: storage,
+                  name: person.fullName,
+                })
+              }
             >
               <Text>{person.fullName}</Text>
             </Styled.Person>
