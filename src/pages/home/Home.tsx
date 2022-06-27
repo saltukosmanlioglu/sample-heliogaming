@@ -1,15 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 
+import { asyncStorageLoad } from "../../app/functions";
 import Header from "../../components/header";
 import Menu from "../../components/menu";
 
-import { Contacts, Create, EditProfile } from "./tabs";
+import { AddNumber, Contacts, EditProfile } from "./tabs";
 
 import * as Styled from "./Home.styled";
+import { PeopleProps } from "./tabs/types";
 
 const Home: React.ComponentType = () => {
   const [activeTab, setActiveTab] = useState<number>(1);
+  const [storage, setStorage] = useState<Array<PeopleProps>>([]);
+
+  useEffect(() => {
+    asyncStorageLoad({
+      key: "contacts",
+      getLoad: (value) => setStorage(JSON.parse(value)),
+    });
+  }, [activeTab]);
 
   const menuItems = [
     {
@@ -43,9 +53,9 @@ const Home: React.ComponentType = () => {
           {activeTab === 0 ? (
             <EditProfile />
           ) : activeTab === 1 ? (
-            <Contacts />
+            <Contacts storage={storage} />
           ) : (
-            <Create />
+            <AddNumber setActiveTab={setActiveTab} storage={storage} />
           )}
         </Styled.MainView>
       </Styled.Scroll>

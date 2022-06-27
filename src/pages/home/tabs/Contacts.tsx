@@ -1,56 +1,42 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { Text, View } from "react-native";
-import { useFocusEffect } from "@react-navigation/native";
 
-import { asyncStorageLoad } from "../../../app/functions";
 import { navigate } from "../../../navigation";
 import Input from "../../../components/input";
 
+import { ContactsProps } from "./types";
 import * as Styled from "./Tabs.styled";
-import { PeopleProps } from "./types";
 
-const Contacts: React.FunctionComponent = () => {
-  const [search, setSearch] = useState<string>();
-  const [storage, setStorage] = useState<Array<PeopleProps>>([]);
-
-  useFocusEffect(
-    useCallback(() => {
-      asyncStorageLoad({
-        key: "contacts",
-        getLoad: (value) => {
-          const parsed = JSON.parse(value);
-
-          if (parsed.length === 0) {
-            setStorage(parsed);
-          } else {
-            setStorage(parsed);
-          }
-        },
-      });
-    }, [])
-  );
-
-  console.log(storage, "storage");
-
-  const handleSearch = (e: string) => {
-    storage.filter((p) =>
-      p.fullName === e ? setStorage([p]) : setStorage(storage)
-    );
-  };
+const Contacts: React.FunctionComponent<ContactsProps> = ({ storage }) => {
+  const [search, setSearch] = useState<string>("");
 
   return (
     <View>
-      <Input onChangeText={handleSearch} placeholder="Search" value={search} />
+      <Input
+        placeholder="Search"
+        value={search}
+        onChangeText={(e) => setSearch(e)}
+      />
 
-      {storage.length > 0 ? (
-        storage.map((person, index) => (
-          <Styled.Person
-            key={index}
-            onPress={() => navigate("ViewProfile", { name: person.fullName })}
-          >
-            <Text>{person.fullName}</Text>
-          </Styled.Person>
-        ))
+      {storage?.length > 0 ? (
+        storage
+          .filter((person) => {
+            if (search === "") {
+              return person;
+            } else if (
+              person.fullName.toLocaleLowerCase().includes(search.toLowerCase())
+            ) {
+              return person;
+            }
+          })
+          .map((person, index) => (
+            <Styled.Person
+              key={index}
+              onPress={() => navigate("ViewProfile", { name: person.fullName })}
+            >
+              <Text>{person.fullName}</Text>
+            </Styled.Person>
+          ))
       ) : (
         <Text style={{ marginTop: 20, textAlign: "center" }}>
           The person could not be found. If you want to create a contact go to

@@ -4,10 +4,14 @@ import { View, Text } from "react-native";
 import { asyncStorageSave, confirmationAlert } from "../../../app/functions";
 import Input from "../../../components/input";
 
-import { PeopleProps } from "./types";
+import { AddNumberProps, PeopleProps } from "./types";
 import * as Styled from "./Tabs.styled";
 
-const Create: React.FunctionComponent = () => {
+const AddNumber: React.FunctionComponent<AddNumberProps> = ({
+  setActiveTab,
+  setStorage,
+  storage,
+}) => {
   const [formData, setFormData] = useState<PeopleProps>({
     address: "",
     company: "",
@@ -26,8 +30,9 @@ const Create: React.FunctionComponent = () => {
       yes: () => {
         asyncStorageSave({
           key: "contacts",
-          value: [formData],
+          value: [...storage, formData],
         });
+        setActiveTab(1);
       },
     });
   };
@@ -62,4 +67,4 @@ const Create: React.FunctionComponent = () => {
   );
 };
 
-export default Create;
+export default AddNumber;
