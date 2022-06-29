@@ -1,3 +1,3 @@
 export { default } from "./Home";
 
-export { TabEnum } from "./types";
+export { TabEnum } from "./enum";

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Text, View } from "react-native";
 
-import { navigate } from "../../../navigation";
-import Input from "../../../components/input";
+import { navigate } from "navigation";
+import Input from "components/input";
 
 import { ContactsProps, PeopleProps } from "./types";
 import * as Styled from "./Tabs.styled";
@@ -22,11 +22,13 @@ const Contacts: React.FunctionComponent<ContactsProps> = ({ storage }) => {
 
   return (
     <View>
-      <Input
-        placeholder="Search"
-        value={search}
-        onChangeText={(e) => setSearch(e)}
-      />
+      {storage.length > 1 && (
+        <Input
+          placeholder="Search"
+          value={search}
+          onChangeText={(e) => setSearch(e)}
+        />
+      )}
 
       {storage?.length > 0 ? (
         storage
@@ -47,7 +49,7 @@ const Contacts: React.FunctionComponent<ContactsProps> = ({ storage }) => {
             </Styled.Person>
           ))
       ) : (
-        <Text style={{ marginTop: 20, textAlign: "center" }}>
+        <Text style={{ marginTop: 10, textAlign: "center" }}>
           The person could not be found. If you want to create a contact go to
           the Add Number tab.
         </Text>

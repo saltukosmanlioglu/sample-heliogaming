@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { CommonActions, useRoute } from "@react-navigation/native";
 
-import { asyncStorageSave, confirmationAlert } from "../../app/functions";
-import Header from "../../components/header";
-import Input from "../../components/input";
+import { asyncStorageSave, confirmationAlert } from "app/functions";
+import Header from "components/header";
+import Input from "components/input";
+import MainButton from "components/main-button";
 
-import { ViewProfileProps } from "./types";
-import * as Styled from "./ViewProfile.styled";
-import * as HomeStyled from "../home/Home.styled";
 import { PeopleProps } from "../home/tabs";
+import { ViewProfileProps } from "./types";
+import * as HomeStyled from "../home/Home.styled";
 
 const ViewProfile: React.ComponentType<ViewProfileProps> = ({
   navigation,
@@ -100,12 +100,8 @@ const ViewProfile: React.ComponentType<ViewProfileProps> = ({
             placeholder="Company"
             value={formData.company}
           />
-          <Styled.UpdateButton onPress={handleUpdate}>
-            <Text style={{ color: "#fff" }}>Update</Text>
-          </Styled.UpdateButton>
-          <Styled.DeleteButton onPress={handleDelete}>
-            <Text style={{ color: "#fff" }}>Delete</Text>
-          </Styled.DeleteButton>
+          <MainButton color="blue" onPress={handleUpdate} text="Update" />
+          <MainButton color="red" onPress={handleDelete} text="Delete" />
         </HomeStyled.MainView>
       </HomeStyled.Scroll>
     </View>

@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { useRoute } from "@react-navigation/native";
 
-import { asyncStorageLoad } from "../../app/functions";
-import Header from "../../components/header";
-import Menu from "../../components/menu";
+import { asyncStorageLoad } from "app/functions";
+import Header from "components/header";
+import Menu from "components/menu";
+import { navigate } from "navigation";
 
 import { AddNumber, Contacts } from "./tabs";
 
-import * as Styled from "./Home.styled";
 import { PeopleProps } from "./tabs/types";
-import { TabEnum } from "./types";
-import { navigate } from "../../navigation";
+import { TabEnum } from "./enum";
+import * as Styled from "./Home.styled";
 
 const Home: React.ComponentType = () => {
   const [activeTab, setActiveTab] = useState<TabEnum>(TabEnum.Contacts);
@@ -60,7 +60,7 @@ const Home: React.ComponentType = () => {
         </Styled.MainView>
       </Styled.Scroll>
 
-      {activeTab === TabEnum.Contacts && (
+      {activeTab === TabEnum.Contacts && storage.length > 1 && (
         <Styled.RandomButton onPress={handleRandom}>
           <Text>Random</Text>
         </Styled.RandomButton>

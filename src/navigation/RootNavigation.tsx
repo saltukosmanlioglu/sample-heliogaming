@@ -1,8 +1,8 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import HomePage from "../pages/home";
-import ViewProfile from "../pages/view-profile";
+import HomePage from "pages/home";
+import ViewProfile from "pages/view-profile";
 
 import { RootStackParamList } from "./types";
 

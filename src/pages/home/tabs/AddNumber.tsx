@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 
-import { asyncStorageSave, confirmationAlert } from "../../../app/functions";
-import Input from "../../../components/input";
+import { asyncStorageSave, confirmationAlert } from "app/functions";
+import Input from "components/input";
+import MainButton from "components/main-button";
 
 import { AddNumberProps, PeopleProps } from "./types";
-import { TabEnum } from "../types";
-import * as Styled from "./Tabs.styled";
+import { TabEnum } from "../enum";
 
 const AddNumber: React.FunctionComponent<AddNumberProps> = ({
   setActiveTab,
@@ -60,9 +60,7 @@ const AddNumber: React.FunctionComponent<AddNumberProps> = ({
         placeholder="Company"
         value={formData.company}
       />
-      <Styled.CreateButton onPress={handleCreate}>
-        <Text style={{ color: "#fff" }}>SAVE</Text>
-      </Styled.CreateButton>
+      <MainButton color="black" onPress={handleCreate} text="SAVE" />
     </View>
   );
 };

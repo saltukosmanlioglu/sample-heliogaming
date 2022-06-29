@@ -1,6 +1,6 @@
 export interface KeyValueProps {
   key: string;
-  value: any;
+  value: unknown;
 }
 
 export interface AsyncStorageLoadProps {
