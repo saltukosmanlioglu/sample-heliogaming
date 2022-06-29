@@ -1,22 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
-import { CommonActions, useRoute } from "@react-navigation/native";
+import {
+  CommonActions,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 
 import { asyncStorageSave, confirmationAlert } from "app/functions";
 import Header from "components/header";
 import Input from "components/input";
 import MainButton from "components/main-button";
+import { RootStackParamList } from "navigation/types";
 
 import { PeopleProps } from "../home/tabs";
 import { ViewProfileProps } from "./types";
 import * as HomeStyled from "../home/Home.styled";
 
-const ViewProfile: React.ComponentType<ViewProfileProps> = ({
-  navigation,
-}: any) => {
-  const route = useRoute<any>();
+const ViewProfile: React.ComponentType<ViewProfileProps> = () => {
+  const route = useRoute<RouteProp<RootStackParamList, "ViewProfile">>();
+  const navigation = useNavigation();
 
-  const index = route.params.index;
+  const index = Number(route.params.index);
 
   const reset = () =>
     navigation.dispatch(
@@ -27,9 +32,9 @@ const ViewProfile: React.ComponentType<ViewProfileProps> = ({
     );
 
   const [formData, setFormData] = useState<PeopleProps>({
-    ...route.params.data.findIndex(
+    ...(route.params.data.findIndex(
       (e: PeopleProps, i: number) => i === index && e
-    ),
+    ) as any),
   });
 
   const handleFieldChange = (key: string, value: string) => {

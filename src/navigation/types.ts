@@ -1,6 +1,9 @@
-import React from "react";
+import { PeopleProps } from "pages/home/tabs";
 
 export type RootStackParamList = {
-  HomePage: React.ComponentType;
-  ViewProfile: React.ComponentType;
+  HomePage: undefined;
+  ViewProfile: {
+    index: number | string;
+    data: Array<PeopleProps>;
+  };
 };

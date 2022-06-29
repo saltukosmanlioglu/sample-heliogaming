@@ -41,7 +41,6 @@ const Contacts: React.FunctionComponent<ContactsProps> = ({ storage }) => {
                 navigate("ViewProfile", {
                   index,
                   data: storage,
-                  name: person.fullName,
                 })
               }
             >
