@@ -18,9 +18,17 @@ const ViewProfile: React.ComponentType<ViewProfileProps> = ({
 
   const index = route.params.index;
 
+  const reset = () =>
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [{ name: "HomePage" }],
+      })
+    );
+
   const [formData, setFormData] = useState<PeopleProps>({
-    ...route.params.data.filter(
-      (p: PeopleProps) => p.fullName === route.params.name
+    ...route.params.data.findIndex(
+      (e: PeopleProps, i: number) => i === index && e
     ),
   });
 
@@ -40,12 +48,7 @@ const ViewProfile: React.ComponentType<ViewProfileProps> = ({
 
         asyncStorageSave({ key: "contacts", value: newData });
 
-        navigation.dispatch(
-          CommonActions.reset({
-            index: 1,
-            routes: [{ name: "HomePage" }],
-          })
-        );
+        reset();
       },
     });
   };
@@ -54,7 +57,14 @@ const ViewProfile: React.ComponentType<ViewProfileProps> = ({
     confirmationAlert({
       text: "Your informations will update ?",
       title: "Update Contact",
-      yes: () => {},
+      yes: () => {
+        const newArr = route.params.data;
+        newArr[index] = formData;
+
+        asyncStorageSave({ key: "contacts", value: newArr });
+
+        reset();
+      },
     });
   };
 

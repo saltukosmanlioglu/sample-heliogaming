@@ -4,11 +4,21 @@ import { Text, View } from "react-native";
 import { navigate } from "../../../navigation";
 import Input from "../../../components/input";
 
-import { ContactsProps } from "./types";
+import { ContactsProps, PeopleProps } from "./types";
 import * as Styled from "./Tabs.styled";
 
 const Contacts: React.FunctionComponent<ContactsProps> = ({ storage }) => {
   const [search, setSearch] = useState<string>("");
+
+  const filterContacts = (person: PeopleProps) => {
+    if (search === "") {
+      return person;
+    } else if (
+      person.fullName.toLocaleLowerCase().includes(search.toLowerCase())
+    ) {
+      return person;
+    }
+  };
 
   return (
     <View>
@@ -20,15 +30,8 @@ const Contacts: React.FunctionComponent<ContactsProps> = ({ storage }) => {
 
       {storage?.length > 0 ? (
         storage
-          .filter((person) => {
-            if (search === "") {
-              return person;
-            } else if (
-              person.fullName.toLocaleLowerCase().includes(search.toLowerCase())
-            ) {
-              return person;
-            }
-          })
+          .sort((a, b) => (a.fullName > b.fullName ? 1 : -1))
+          .filter(filterContacts)
           .map((person, index) => (
             <Styled.Person
               key={index}
