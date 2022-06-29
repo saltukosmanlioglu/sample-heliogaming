@@ -34,6 +34,7 @@ const Contacts: React.FunctionComponent<ContactsProps> = ({ storage }) => {
               key={index}
               onPress={() =>
                 navigate("ViewProfile", {
+                  index,
                   data: storage,
                   name: person.fullName,
                 })
