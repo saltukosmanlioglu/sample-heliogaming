@@ -16,21 +16,17 @@ const ViewProfile: React.ComponentType<ViewProfileProps> = ({
 }: any) => {
   const route = useRoute<any>();
 
-  const index = route?.params?.index;
+  const index = route.params.index;
 
   const [formData, setFormData] = useState<PeopleProps>({
-    ...route?.params?.data?.filter(
+    ...route.params.data.filter(
       (p: PeopleProps) => p.fullName === route.params.name
     ),
   });
 
-  console.log(formData, "sad");
-
   const handleFieldChange = (key: string, value: string) => {
     setFormData({ ...formData, [key]: value });
   };
-
-  console.log(index, route);
 
   const handleDelete = () => {
     confirmationAlert({
@@ -63,14 +59,14 @@ const ViewProfile: React.ComponentType<ViewProfileProps> = ({
   };
 
   useEffect(() => {
-    route?.params?.data?.findIndex?.((e: PeopleProps, i: number) =>
-      i === index ? setFormData(e) : null
+    route.params.data.findIndex(
+      (e: PeopleProps, i: number) => i === index && setFormData(e)
     );
-  }, [formData]);
+  }, [route]);
 
-  return formData ? (
+  return route.params.data ? (
     <View style={{ flex: 1 }}>
-      <Header title={route.params.name} goBack />
+      <Header title={formData.fullName} goBack />
       <HomeStyled.Scroll>
         <HomeStyled.MainView>
           <Input

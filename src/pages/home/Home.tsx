@@ -32,6 +32,7 @@ const Home: React.ComponentType = () => {
 
   const handleRandom = () => {
     navigate("ViewProfile", {
+      data: storage,
       index: Math.floor(Math.random() * storage.length),
     });
   };
