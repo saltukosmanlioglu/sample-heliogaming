@@ -66,7 +66,7 @@ const Home: React.ComponentType = () => {
         </Styled.RandomButton>
       )}
 
-      <Menu menuItems={menuItems} />
+      <Menu activeMenu={activeTab} menuItems={menuItems} />
     </View>
   );
 };

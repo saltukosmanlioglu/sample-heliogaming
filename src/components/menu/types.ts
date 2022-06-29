@@ -4,5 +4,6 @@ export type ItemProps = {
 };
 
 export interface MenuProps {
+  activeMenu: any;
   menuItems: Array<ItemProps>;
 }
