@@ -63,7 +63,7 @@ const ViewProfile: React.ComponentType<ViewProfileProps> = () => {
       text: "Your informations will update ?",
       title: "Update Contact",
       yes: () => {
-        const newArr = route.params.data;
+        const newArr = route.params.data.slice();
         newArr[index] = formData;
 
         asyncStorageSave({ key: "contacts", value: newArr });

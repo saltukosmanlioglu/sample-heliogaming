@@ -7,12 +7,12 @@ export const confirmationAlert = ({ title, text, yes, no }: ConfirmationAlertPro
     {
       onPress: () => no?.(),
       style: "cancel",
-      text: "Hayır",
+      text: "No",
     },
     {
       onPress: () => yes?.(),
       style: "destructive",
-      text: "Evet",
+      text: "Yes",
     },
   ]);
 };
