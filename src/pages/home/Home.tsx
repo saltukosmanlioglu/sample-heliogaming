@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Platform, Text, View } from "react-native";
 import { useRoute } from "@react-navigation/native";
 
 import { asyncStorageLoad } from "app/functions";
@@ -38,10 +38,16 @@ const Home: React.ComponentType = () => {
   };
 
   useEffect(() => {
-    asyncStorageLoad({
-      key: "contacts",
-      getLoad: (value) => setStorage(JSON.parse(value)),
-    });
+    if (Platform.OS === "web") {
+      setStorage(
+        JSON.parse(localStorage.getItem("contacts") as any) || ([] as any)
+      );
+    } else {
+      asyncStorageLoad({
+        key: "contacts",
+        getLoad: (value) => setStorage(JSON.parse(value)),
+      });
+    }
   }, [activeTab, route]);
 
   return (

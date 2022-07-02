@@ -4,9 +4,7 @@ export const Scroll = styled.ScrollView`
   flex: 1;
 `;
 
-export const MainView = styled.ScrollView`
-  flex: 1;
-  height: 100%;
+export const MainView = styled.View`
   background-color: #fff;
   margin: 10px;
   padding: 20px;

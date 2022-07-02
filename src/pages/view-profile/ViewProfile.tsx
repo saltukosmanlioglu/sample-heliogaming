@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import {
   CommonActions,
   RouteProp,
@@ -7,7 +7,11 @@ import {
   useRoute,
 } from "@react-navigation/native";
 
-import { asyncStorageSave, confirmationAlert } from "app/functions";
+import {
+  alertPolyfill,
+  asyncStorageSave,
+  confirmationAlert,
+} from "app/functions";
 import Header from "components/header";
 import Input from "components/input";
 import MainButton from "components/main-button";
@@ -42,35 +46,69 @@ const ViewProfile: React.ComponentType<ViewProfileProps> = () => {
   };
 
   const handleDelete = () => {
-    confirmationAlert({
-      text: "Are you sure that you want to delete ?",
-      title: "Delete Contact",
-      yes: () => {
-        const newData = [
-          ...route.params.data.slice(0, index),
-          ...route.params.data.slice(index + 1),
-        ];
+    const newData = [
+      ...route.params.data.slice(0, index),
+      ...route.params.data.slice(index + 1),
+    ];
 
-        asyncStorageSave({ key: "contacts", value: newData });
+    if (Platform.OS === "web") {
+      alertPolyfill({
+        title: "Your informations will update ?",
+        description: "Update Contact",
+        options: [
+          {
+            onPress: () => {
+              localStorage.setItem("contacts", JSON.stringify(newData));
+              window.location.href = "HomePage";
+            },
+            style: "destructive",
+            text: "Yes",
+          },
+        ],
+      });
+    } else {
+      confirmationAlert({
+        text: "Are you sure that you want to delete ?",
+        title: "Delete Contact",
+        yes: () => {
+          asyncStorageSave({ key: "contacts", value: newData });
 
-        reset();
-      },
-    });
+          reset();
+        },
+      });
+    }
   };
 
   const handleUpdate = () => {
-    confirmationAlert({
-      text: "Your informations will update ?",
-      title: "Update Contact",
-      yes: () => {
-        const newArr = route.params.data.slice();
-        newArr[index] = formData;
+    const newArr = route.params.data.slice();
+    newArr[index] = formData;
 
-        asyncStorageSave({ key: "contacts", value: newArr });
+    if (Platform.OS === "web") {
+      alertPolyfill({
+        title: "Your informations will update ?",
+        description: "Update Contact",
+        options: [
+          {
+            onPress: () => {
+              localStorage.setItem("contacts", JSON.stringify(newArr));
+              window.location.href = "HomePage";
+            },
+            style: "destructive",
+            text: "Yes",
+          },
+        ],
+      });
+    } else {
+      confirmationAlert({
+        text: "Your informations will update ?",
+        title: "Update Contact",
+        yes: () => {
+          asyncStorageSave({ key: "contacts", value: newArr });
 
-        reset();
-      },
-    });
+          reset();
+        },
+      });
+    }
   };
 
   useEffect(() => {

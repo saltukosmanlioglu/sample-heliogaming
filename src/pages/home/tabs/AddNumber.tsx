@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { Alert, Platform, View } from "react-native";
 
-import { asyncStorageSave, confirmationAlert } from "app/functions";
+import {
+  alertPolyfill,
+  asyncStorageSave,
+  confirmationAlert,
+} from "app/functions";
 import Input from "components/input";
 import MainButton from "components/main-button";
 
@@ -24,17 +28,52 @@ const AddNumber: React.FunctionComponent<AddNumberProps> = ({
   };
 
   const handleCreate = () => {
-    confirmationAlert({
-      title: "Add Contact",
-      text: `Create a record named ${formData.fullName} ?`,
-      yes: () => {
-        asyncStorageSave({
-          key: "contacts",
-          value: [...storage, formData],
+    if (
+      formData.address === "" ||
+      formData.company === "" ||
+      formData.fullName === "" ||
+      formData.phoneNumber === ""
+    ) {
+      Platform.OS === "web"
+        ? alertPolyfill({
+            title: "Error",
+            description: "You have to enter all fields",
+            options: [],
+          })
+        : Alert.alert("Error", "You have to enter all fields");
+    } else {
+      if (Platform.OS === "web") {
+        alertPolyfill({
+          title: "Add Contact",
+          description: `Create a record named ${formData.fullName} ?`,
+          options: [
+            {
+              onPress: () => {
+                localStorage.setItem(
+                  "contacts",
+                  JSON.stringify([...storage, formData])
+                );
+                window.location.reload();
+              },
+              style: "destructive",
+              text: "Yes",
+            },
+          ],
         });
-        setActiveTab(TabEnum.Contacts);
-      },
-    });
+      } else {
+        confirmationAlert({
+          title: "Add Contact",
+          text: `Create a record named ${formData.fullName} ?`,
+          yes: () => {
+            asyncStorageSave({
+              key: "contacts",
+              value: [...storage, formData],
+            });
+            setActiveTab(TabEnum.Contacts);
+          },
+        });
+      }
+    }
   };
 
   return (

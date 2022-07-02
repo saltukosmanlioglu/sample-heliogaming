@@ -14,3 +14,9 @@ export interface ConfirmationAlertProps {
   title: string;
   yes: () => void;
 }
+
+export interface AlertPolyFillProps {
+  description: string;
+  options: any;
+  title: string;
+}

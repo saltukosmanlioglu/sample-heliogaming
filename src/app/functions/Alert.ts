@@ -1,8 +1,28 @@
-import { Alert } from "react-native";
+import { Alert, AlertButton } from "react-native";
 
-import { ConfirmationAlertProps } from "./types";
+import { AlertPolyFillProps, ConfirmationAlertProps } from "./types";
 
-export const confirmationAlert = ({ title, text, yes, no }: ConfirmationAlertProps) => {
+export const alertPolyfill = ({
+  title,
+  description,
+  options,
+}: AlertPolyFillProps) => {
+  const result = window.confirm(`${title} ${"\n"}${description}`);
+
+  if (result) {
+    const confirmOption = options.find(
+      (style: AlertButton["style"]) => style !== "destructive"
+    );
+    confirmOption.onPress?.();
+  }
+};
+
+export const confirmationAlert = ({
+  title,
+  text,
+  yes,
+  no,
+}: ConfirmationAlertProps) => {
   Alert.alert(title, text, [
     {
       onPress: () => no?.(),

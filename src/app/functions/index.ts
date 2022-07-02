@@ -1,14 +1,10 @@
-export {
-  asyncStorageLoad,
-  asyncStorageSave,
-} from './AsyncStorage'
+export { asyncStorageLoad, asyncStorageSave } from "./AsyncStorage";
 
-export {
-  confirmationAlert
-} from './Alert'
+export { alertPolyfill, confirmationAlert } from "./Alert";
 
 export type {
+  AlertPolyFillProps,
   AsyncStorageLoadProps,
   KeyValueProps,
   ConfirmationAlertProps,
-} from './types'
+} from "./types";
