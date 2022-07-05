@@ -14,7 +14,10 @@ const Contacts: React.FunctionComponent<ContactsProps> = ({ storage }) => {
     if (search === "") {
       return person;
     } else if (
-      person.fullName.toLocaleLowerCase().includes(search.toLowerCase())
+      person.address.toLocaleLowerCase().includes(search.toLowerCase()) ||
+      person.company.toLocaleLowerCase().includes(search.toLowerCase()) ||
+      person.fullName.toLocaleLowerCase().includes(search.toLowerCase()) ||
+      person.phoneNumber.includes(search)
     ) {
       return person;
     }
@@ -44,7 +47,10 @@ const Contacts: React.FunctionComponent<ContactsProps> = ({ storage }) => {
                 })
               }
             >
-              <Text>{person.fullName}</Text>
+              <Text>{`${person.fullName} \n`}</Text>
+              <Text> - Address: {person.address}</Text>
+              <Text> - Company: {person.company}</Text>
+              <Text> - Phone number: {person.phoneNumber}</Text>
             </Styled.Person>
           ))
       ) : (
